@@ -4,6 +4,12 @@
 [Инструкция](../master/git-tutorial.md#дополнение) для объединения вашего и шаблонного репозиториев.
 
 * * *
+# Полезные ссылки
+- [Видеоурок по лямбда-выражениям](https://www.youtube.com/watch?v=WmMavkXMXDg), [вторая часть](https://www.youtube.com/watch?v=KSSW1YaW_vQ).
+- [Параметры переменной длины](https://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html#varargs)
+- [Wildcards](https://docs.oracle.com/javase/tutorial/extra/generics/wildcards.html)
+
+* * *
 
 # Домашние задания
 ## Задание 1. 
