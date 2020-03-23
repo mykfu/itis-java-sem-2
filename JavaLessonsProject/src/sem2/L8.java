@@ -23,13 +23,13 @@ class Chains {
 
 
     public static String game(String in, String out) {
-        LinkedList<String>  result = new LinkedList<>();
-        LinkedList<String>  history = new LinkedList<>();
-        if(game(in, out, result, history)) {
+        LinkedList<String> result = new LinkedList<>();
+        LinkedList<String> history = new LinkedList<>();
+        history.add(in);
+        if (game(in, out, result, history)) {
             System.out.println("Длина цепочки: " + result.size());
             return result.toString();
-        }
-        else return "Не найдено цепочек.";
+        } else return "Не найдено цепочек.";
     }
 
 
@@ -37,7 +37,7 @@ class Chains {
         if (in.equals(out)) {
             return true;
         } else {
-            LinkedList<String>  words = getWordList(in, new TreeSet<>(history));
+            LinkedList<String> words = getWordList(in, new TreeSet<>(history));
             history.addAll(words);
 //            words.sort(Comparator.comparingInt((String s)->{
 //                int count = 0;
@@ -60,10 +60,11 @@ class Chains {
 
     public static String gameBFS(String in, String out) {
         Map<String, String> history = new LinkedHashMap<>(); //TreeMap HashMap
+        history.put(in, null);
         LinkedList<String> queue = new LinkedList<>();
         queue.add(in);
         List<String> result = gameBFS(in, out, queue, history);
-        if(result.isEmpty()) return "Пустое множество.";
+        if (result.isEmpty()) return "Пустое множество.";
         else return result.toString();
     }
 
@@ -74,7 +75,7 @@ class Chains {
 //        Map<String, LinkedList<String>>
         while (!queue.isEmpty()) {
             String current = queue.poll();
-            LinkedList<String>  words = getWordList(current, history.keySet());
+            LinkedList<String> words = getWordList(current, history.keySet());
             System.out.println(String.format("%s => %s%n", current, words.toString()));
             for (String word : words) {
                 history.put(word, current);
