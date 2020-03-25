@@ -152,3 +152,99 @@ System.out.println(tags);
 Решить все упражнения из [L7](DistanceEducation/L7.md) и [L8](DistanceEducation/L8.md).
 
 До 25.03.
+
+## Задание 24.
+### Реализовать класс ориентированного графа.
+####  Три части по одному баллу. 
+[Есть](https://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D1%84_(%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0)#.D0.A1.D0.BF.D0.BE.D1.81.D0.BE.D0.B1.D1.8B_.D0.BF.D1.80.D0.B5.D0.B4.D1.81.D1.82.D0.B0.D0.B2.D0.BB.D0.B5.D0.BD.D0.B8.D1.8F_.D0.B3.D1.80.D0.B0.D1.84.D0.B0_.D0.B2_.D0.B8.D0.BD.D1.84.D0.BE.D1.80.D0.BC.D0.B0.D1.82.D0.B8.D0.BA.D0.B5)
+несколько вариантов реализаций графа:
++ Список смежности
++ Матрица смежности
++ Матрица инцидентности
+
+##### Часть 1
+Своими словами опишите все три подхода (одно-два предложения в качестве комментария в начале класса), 
+а также другой подход, если вы будете использовать его.
+
+Добавьте в начале классов Abstraction Functions и Rep Invariants (см., напр., [тык](https://web.mit.edu/6.005/www/fa15/classes/13-abstraction-functions-rep-invariants/), [тык](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-170-laboratory-in-software-engineering-fall-2005/lecture-notes/lec8.pdf)),
+отображающие какие типы данных используются внутри классов.
+
+Добавьте комментарии над каждым методом, отображающий его суть.
+
+Реализуйте метод `private checkRep()`, который проверяет описанный *Rep Invariants* и выбрасывает исключение, если оно не выполняется.
+
+##### Часть 2
+Напишите модульные тесты для каждого публичного метода ваших классов.
+Попробуйте использовать стратегию TDD.
+Также напишите комментарии к тестам о вашей стратегии.
+
+##### Часть 3 
+Реализуйте классы графа.
+
+## Задание 25. MarvelPaths
+В этом задании вам необходимо, в разработанный в задании 24 граф добавить 
+моделирование вселенной Марвел.
+Данное приложение строит граф содержащий тысячи узлов и граней.
+
+В этом приложении ваш граф моделирует социальную сеть среди персонажей комиксов Marvel. 
+Каждый узел в графе представляет одного персонажа, и ребро ?Char1, Char2? указывает, 
+что Char1 появился в комиксе, в котором также появился Char2. 
+Для каждого комикса должно быть отдельное ребро, помеченная названием книги.
+ Например, если бы Зевс и Геркулес появились в (скажем) пяти выпусках данной серии, 
+ то у Зевса было бы пять ребер к Геркулесу, а у Геркулеса было бы пять ребер к Зевсу.
+ 
+ Ваш граф не должен ссылаться на себя.
+ 
+Необходимо реализовать класс MarvelPaths, который считывает данные Marvel из файла (marvel.csv),
+ строит график и находит пути между персонажами в графе.
+ Пример:
+``` 
+ path from GORILLA-MAN to VENUS-II:
+ GORILLA-MAN to HAWK via AVF-4
+ HAWK to VENUS-II via AVF-5
+ ```
+ 
+*Формат CSV – это таблица разделелнная SEPARATOR-ом (в зависимости от региона он разный, например,
+в России это ";", тогда как в США ",". Указывается в системных настройках локали). 
+Также можно указать первой строкой какой использовать разделитель (например, SEP=,).
+Также возможно использование кавычек, для определения начала и конца.*
+
+Строка выглядит следующим обрам: `"character","book""`, где `character` - имя персонажа, а
+`book` - название коммикса, в которой был этот персонаж.
+
+Первым шагом необходимо разработать класс `MarvelParser`, с единственным статичным методом
+`parseData(String filename, Set <String> characters, Map<String, List<String>> books)`. 
+Который считывает данные с файла, и записывает в переданные параметры. В `Set` всех персонажей,
+а в `Map` в ключи название книги и список персонажей в значения.
+
+Ваша программа должна найти кратчайший путь, используя алгоритм поиска в ширину (BFS).
+
+Всевдокод:
+```
+    start = starting node
+    dest = destination node
+    Q = queue, or "worklist", of nodes to visit: initially empty
+    M = map from nodes to paths: initially empty.
+        // Each key in M is a visited node.
+        // Each value is a path from start to that node.
+        // A path is a list; you decide whether it is a list of nodes, or edges,
+        // or node data, or edge data, or nodes and edges, or something else.
+    Add start to Q
+    Add start->[] to M (start mapped to an empty list)
+    while Q is not empty:
+        dequeue next node n
+        if n is dest
+            return the path associated with n in M
+        for each edge e=?n,m?:
+            if m is not in M, i.e. m has not been visited:
+                let p be the path n maps to in M
+                let p' be the path formed by appending e to p
+                add m->p' to M
+                add m to Q
+    If the loop terminates, then no path exists from start to dest.
+    The implementation should indicate this to the client.
+```
+
+Ваша программа должна построить граф и найти путь менее чем за 30 секунд. 
+
+Для тестирования можете использовать другой набор данных.
