@@ -17,33 +17,33 @@ import java.util.function.Predicate;
  */
 public class L6 {
     interface CheckPerson {
-        boolean test(Person p);
+        boolean test(PersonL6 p);
     }
-    static void printPersonOlderThan(List<Person> roster, int age) {
-        for (Person p : roster) {
+    static void printPersonOlderThan(List<PersonL6> roster, int age) {
+        for (PersonL6 p : roster) {
             if (p.getAge() >= age){
                 p.print();
             }
         }
     }
-    static void printPersonOlderThan(List<Person> roster, int age, int ageHigh) {
-        for (Person p : roster) {
+    static void printPersonOlderThan(List<PersonL6> roster, int age, int ageHigh) {
+        for (PersonL6 p : roster) {
             if (p.getAge() >= age && p.getAge() <= ageHigh){
                 p.print();
             }
         }
     }
 
-    static void printPerson(List<Person> roster, CheckPerson tester) {
-        for (Person p : roster) {
+    static void printPerson(List<PersonL6> roster, CheckPerson tester) {
+        for (PersonL6 p : roster) {
             if (tester.test(p)){
                 p.print();
             }
         }
     }
 
-    static void printPersonWithPredicate(List<Person> roster, Predicate<Person> tester) {
-        for (Person p : roster) {
+    static void printPersonWithPredicate(List<PersonL6> roster, Predicate<PersonL6> tester) {
+        for (PersonL6 p : roster) {
             if (tester.test(p)){
                 p.print();
             }
@@ -51,11 +51,11 @@ public class L6 {
     }
 
     static void processPersonWithFunction(
-            List<Person> roster, 
-            Predicate<Person> tester,
-            Function<Person, String> mapper,
+            List<PersonL6> roster,
+            Predicate<PersonL6> tester,
+            Function<PersonL6, String> mapper,
             Consumer<String> block) {
-        for (Person p : roster) {
+        for (PersonL6 p : roster) {
             if (tester.test(p)){
                 String data = mapper.apply(p);
                 block.accept(data);
@@ -77,7 +77,7 @@ public class L6 {
     }
     
     public static void main(String[] args) {
-        List<Person> roster = Person.createRoster();
+        List<PersonL6> roster = PersonL6.createRoster();
         printPersonOlderThan(roster, 25);
         System.out.println();
         printPersonOlderThan(roster, 25, 40);
@@ -85,8 +85,8 @@ public class L6 {
         
         class CheckPersonProvider implements CheckPerson {
             @Override
-            public boolean test(Person p) {
-                return p.getGender() == Person.Sex.MALE
+            public boolean test(PersonL6 p) {
+                return p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40;
             }
@@ -99,22 +99,22 @@ public class L6 {
         System.out.println("\nCheckPersonProvider Anonimous class:");
         printPerson(roster, new CheckPerson() {
             @Override
-            public boolean test(Person p) {
-                return p.getGender() == Person.Sex.MALE
+            public boolean test(PersonL6 p) {
+                return p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40;
             }
         });
         
         System.out.println("\nCheckPerson Lambda:");
-        printPerson(roster, (p) -> p.getGender() == Person.Sex.MALE
+        printPerson(roster, (p) -> p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40);
         
         
         
         System.out.println("\nCheckPerson Lambda Predicate:");
-        printPersonWithPredicate(roster, p -> p.getGender() == Person.Sex.MALE
+        printPersonWithPredicate(roster, p -> p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40);
         
@@ -123,7 +123,7 @@ public class L6 {
         System.out.println("\nCheckPerson Lambda Functions:");
         processPersonWithFunction(
                 roster, 
-                p -> p.getGender() == Person.Sex.MALE
+                p -> p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40,
                 p -> p.getEmail(),
@@ -138,7 +138,7 @@ public class L6 {
         System.out.println("\nCheckPerson Lambda Function Generics:");
         processPersonWithGenerics(
                 roster, 
-                p -> p.getGender() == Person.Sex.MALE
+                p -> p.getGender() == PersonL6.Sex.MALE
                         && p.getAge() >= 25
                         && p.getAge() <=40,
                 p -> p.getGender(),
@@ -148,17 +148,17 @@ public class L6 {
         System.out.println("\nStream API:");
         roster
             .stream()
-            .filter(p -> p.getGender() == Person.Sex.MALE
+            .filter(p -> p.getGender() == PersonL6.Sex.MALE
                     && p.getAge() >= 25
                     && p.getAge() <=40)
             .map(p -> p.getEmail())
-            .forEach(Person::print);
+            .forEach(PersonL6::print);
         
     }
     
 }
 
-class Person {
+class PersonL6 {
     enum Sex {
         MALE, FEMALE
     }
@@ -168,7 +168,7 @@ class Person {
     LocalDate birthday;
     Sex gender;
 
-    public Person(String name, String email, LocalDate birthday, Sex gender) {
+    public PersonL6(String name, String email, LocalDate birthday, Sex gender) {
         this.name = name;
         this.email = email;
         this.birthday = birthday;
@@ -204,12 +204,12 @@ class Person {
         System.out.println(text);
     }
     
-    static List<Person> createRoster() {
-        List<Person> roster = new ArrayList<>();
-        roster.add(new Person("Ivan", "ivan@bk.ru", LocalDate.of(1992,12,02), Person.Sex.MALE));
-        roster.add(new Person("Petr", "petro@bk.ru", LocalDate.of(1989,12,02), Person.Sex.MALE));
-        roster.add(new Person("Jonh", "johndoe@bk.ru", LocalDate.of(1976,12,02), Person.Sex.MALE));
-        roster.add(new Person("Yulya", "yulya@bk.ru", LocalDate.of(2001,12,02), Person.Sex.FEMALE));
+    static List<PersonL6> createRoster() {
+        List<PersonL6> roster = new ArrayList<>();
+        roster.add(new PersonL6("Ivan", "ivan@bk.ru", LocalDate.of(1992,12,02), PersonL6.Sex.MALE));
+        roster.add(new PersonL6("Petr", "petro@bk.ru", LocalDate.of(1989,12,02), PersonL6.Sex.MALE));
+        roster.add(new PersonL6("Jonh", "johndoe@bk.ru", LocalDate.of(1976,12,02), PersonL6.Sex.MALE));
+        roster.add(new PersonL6("Yulya", "yulya@bk.ru", LocalDate.of(2001,12,02), PersonL6.Sex.FEMALE));
         return roster;
     }
 }
