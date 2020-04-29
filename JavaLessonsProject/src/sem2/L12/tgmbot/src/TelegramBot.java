@@ -1,4 +1,6 @@
 import com.google.gson.Gson;
+import model.Update;
+import model.User;
 
 import java.io.*;
 import java.net.*;

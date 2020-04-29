@@ -1,3 +1,5 @@
+package model;
+
 public class User {
     private long id;
     private boolean is_bot;
@@ -20,7 +22,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "model.User{" +
                 "id=" + id +
                 ", is_bot=" + is_bot +
                 ", username='" + username + '\'' +

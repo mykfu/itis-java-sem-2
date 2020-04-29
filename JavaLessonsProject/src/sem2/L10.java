@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 import java.lang.reflect.*;
 
 public class L10 {
-    public static void main(String[] args) throws NoSuchMethodException {
+    public static void main(String[] args) throws NoSuchMethodException, NoSuchFieldException, InvocationTargetException, IllegalAccessException {
         // Reflection API
         Hero ironMan = new Hero("Iron Man", "iron", "IM comics");
         Class<Hero> cls = Hero.class;
@@ -96,8 +96,33 @@ public class L10 {
                 System.out.println("Prod.");
             }
         }
+
+        String k = "123";
+        Field field = sem2.Consumer.class.getDeclaredField("id");
+        Method valueOf = toWrapper(field.getType()).getMethod("valueOf", String.class);
+
+        long l = (long) valueOf.invoke(toWrapper(field.getType()), "1234124124");
+        System.out.println("l = " + l);
+    }
+
+    static Class<?> toWrapper(Class<?> clazz) {
+        if (!clazz.isPrimitive()) {
+            return clazz;
+        }
+        switch (clazz.getTypeName()) {
+            case "long":
+                return Long.class;
+        }
+
+        if (clazz == Long.TYPE) {
+            return Long.class;
+        }
+
+        return clazz;
     }
 }
+
+
 
 
 @Retention(RetentionPolicy.RUNTIME)

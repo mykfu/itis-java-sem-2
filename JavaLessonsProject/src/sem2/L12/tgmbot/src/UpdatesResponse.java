@@ -1,3 +1,5 @@
+import model.Update;
+
 import java.util.Arrays;
 
 public class UpdatesResponse implements Response {

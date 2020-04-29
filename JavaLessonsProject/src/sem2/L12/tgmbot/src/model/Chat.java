@@ -1,3 +1,5 @@
+package model;
+
 public class Chat {
     private long id;
     private String type;
@@ -20,7 +22,7 @@ public class Chat {
 
     @Override
     public String toString() {
-        return "Chat{" +
+        return "model.Chat{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", username='" + username + '\'' +

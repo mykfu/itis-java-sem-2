@@ -1,4 +1,4 @@
-import com.google.gson.annotations.SerializedName;
+package model;
 
 public class Update {
     private long update_id;
@@ -27,7 +27,7 @@ public class Update {
 
     @Override
     public String toString() {
-        return "Update{" +
+        return "model.Update{" +
                 "update_id=" + update_id +
                 ", is_bot=" + is_bot +
                 (message != null?  ", message=" + message : "" ) +

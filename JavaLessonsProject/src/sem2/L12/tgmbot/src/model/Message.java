@@ -1,3 +1,5 @@
+package model;
+
 public class Message {
     private long message_id;
     private User from;
@@ -30,7 +32,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "model.Message{" +
                 "message_id=" + message_id +
                 ", from=" + from +
                 ", date=" + date +
