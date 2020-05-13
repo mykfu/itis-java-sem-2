@@ -1,6 +1,9 @@
 package model;
 
-public class Update {
+import dao.CSVFileChatDAO;
+import dao.CSVFileUserDAO;
+
+public class Update implements Model {
     private long update_id;
     private boolean is_bot;
     private Message message;

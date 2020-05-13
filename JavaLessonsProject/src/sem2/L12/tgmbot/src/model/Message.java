@@ -1,6 +1,6 @@
 package model;
 
-public class Message {
+public class Message implements Model {
     private long message_id;
     private User from;
     private long date;
@@ -8,6 +8,14 @@ public class Message {
     private String text;
 
     public Message() {
+    }
+
+    public Message(long message_id, User from, long date, Chat chat, String text) {
+        this.message_id = message_id;
+        this.from = from;
+        this.date = date;
+        this.chat = chat;
+        this.text = text;
     }
 
     public long getMessage_id() {

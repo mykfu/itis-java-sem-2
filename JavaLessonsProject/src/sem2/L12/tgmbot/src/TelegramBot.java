@@ -1,6 +1,4 @@
-import com.google.gson.Gson;
-import model.Update;
-import model.User;
+import com.google.gson.*;
 
 import java.io.*;
 import java.net.*;
@@ -11,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+
+import dao.CSVFileUserDAO;
+import model.*;
 
 public class TelegramBot {
     private final String TELEGRAM_BOT = "https://api.telegram.org/bot";
@@ -39,7 +40,7 @@ public class TelegramBot {
         }
     }
 
-    private Response getResponse(String link, Class<? extends Response> clazz) {
+    public <T extends Response> T getResponse(String link, Class<T> clazz) {
         ReadableByteChannel channel;
         BufferedReader bufferedReader = null;
         InputStream inputStream = null;
@@ -49,6 +50,7 @@ public class TelegramBot {
             try {
                 System.out.println("Connecting... " + ++counter);
                 URL url = new URL(link);
+                System.out.println(link);
                 Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("5.183.150.174", 8080));
                 URLConnection connection = url.openConnection(proxy);
                 connection.connect();
@@ -74,7 +76,7 @@ public class TelegramBot {
 
     public void getMe() {
         String link = TELEGRAM_BOT + token + "/getMe";
-        DefaultResponse<User> response = (DefaultResponse<User>) getResponse(link, DefaultResponse.class);
+        UserResponse response = getResponse(link, UserResponse.class);
         System.out.println(response);
     }
 
@@ -95,36 +97,9 @@ public class TelegramBot {
         if (longPolling) {
             link += "&timeout=10";
         }
-        ReadableByteChannel channel;
-        BufferedReader bufferedReader = null;
-        UpdatesResponse response = null;
-        InputStream inputStream = null;
-        int counter = 0;
-        do {
-            try {
-                System.out.println("Connecting... " + ++counter);
-                URL url = new URL(link);
-                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("5.183.150.174", 8080));
-                URLConnection connection = url.openConnection(proxy);
-                connection.setConnectTimeout(15000);
-                connection.connect();
-                inputStream = connection.getInputStream();
-                if (inputStream.available() > 0) {
-                    System.out.println("Reading...");
-                    channel = Channels.newChannel(inputStream);
-                    bufferedReader = new BufferedReader(Channels.newReader(channel, StandardCharsets.UTF_8.name()));
+        updatesResponse = (UpdatesResponse) getResponse(link, UpdatesResponse.class);
+        Update[] updates = updatesResponse.getResult();
 
-                    Gson gson = new Gson();
-                    response = gson.fromJson(bufferedReader, UpdatesResponse.class);
-
-                    channel.close();
-                    bufferedReader.close();
-                }
-            } catch (IOException ex) {
-                System.err.println(ex);
-            }
-        } while (inputStream == null);
-        Update[] updates = response.getResult();
         for (Update update : updates) {
             System.out.println(update);
             offset = update.getUpdate_id() + 1;
@@ -136,8 +111,7 @@ public class TelegramBot {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response.getResult();
-
+        return updates;
     }
 
     String answer(String text) {
@@ -161,6 +135,10 @@ public class TelegramBot {
                                 update.getMessage().getChat().getId(),
                                 "Hello, @" + update.getMessage().getFrom().getUsername() + "!"
                         );
+
+                    CSVFileUserDAO dao = new CSVFileUserDAO();
+                    dao.add(update.getMessage().getFrom());
+                    dao.close();
                 }
             } else {
                 System.out.println("No updates.");
@@ -171,7 +149,6 @@ public class TelegramBot {
 //                }
             }
         }
-
     }
 }
 

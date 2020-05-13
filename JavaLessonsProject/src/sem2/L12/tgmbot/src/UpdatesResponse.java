@@ -9,6 +9,11 @@ public class UpdatesResponse implements Response {
     public UpdatesResponse() {
     }
 
+    public UpdatesResponse(boolean ok, Update[] result) {
+        this.ok = ok;
+        this.result = result;
+    }
+
     public boolean isOk() {
         return ok;
     }

@@ -7,8 +7,8 @@ public class TeamDataTest {
         team1.success(4, 82);
         team1.success(6, 130);
         System.out.println(team1);	// UW Red solved 3 of 8 in 230 minutes
-        team1.solved(); 			// 3
-        team1.time(); 				// 230
-        team1.percentCorrect(); 		// 37.5.
+        System.out.println(team1.solved()); 			// 3
+        System.out.println(team1.time()); 				// 230
+        System.out.println(team1.percentCorrect()); 		// 37.5.
     }
 }

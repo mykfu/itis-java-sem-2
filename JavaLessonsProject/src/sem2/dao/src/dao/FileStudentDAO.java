@@ -5,7 +5,7 @@ import model.Student;
 
 import java.util.List;
 
-public class StudentFileDAO implements StudentDAO {
+public class FileStudentDAO implements StudentDAO {
 
     // Create
     @Override

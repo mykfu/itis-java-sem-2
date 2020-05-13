@@ -1,6 +1,6 @@
 package model;
 
-public class User {
+public class User implements Model {
     private long id;
     private boolean is_bot;
     private String username;
@@ -8,11 +8,17 @@ public class User {
     public User() {
     }
 
+    public User(long id, boolean is_bot, String username) {
+        this.id = id;
+        this.is_bot = is_bot;
+        this.username = username;
+    }
+
     public long getId() {
         return id;
     }
 
-    public boolean isIs_bot() {
+    public boolean isBot() {
         return is_bot;
     }
 

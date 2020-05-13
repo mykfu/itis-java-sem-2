@@ -1,6 +1,4 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,10 +7,12 @@ import java.util.Properties;
 class RunTgmUpdateService {
     public static void main(String[] args) throws Exception {
         System.out.println("RunTgmUpdateService.main");
-        Path path = Paths.get("config.properties");
+        Path path = Paths.get("src/sem2/L12/tgmbot/resources/config.properties");
         TelegramBot bot = null;
         if (Files.exists(path)) {
-            bot = new TelegramBot();
+            Properties properties = new Properties();
+            properties.load(new InputStreamReader(new FileInputStream(path.toFile())));
+            bot = new TelegramBot(properties.getProperty("bot_token"));
         } else if (args.length > 0) {
             for (String arg : args) {
                 Properties properties = new Properties();

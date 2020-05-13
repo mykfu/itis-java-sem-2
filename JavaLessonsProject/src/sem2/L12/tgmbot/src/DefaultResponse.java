@@ -1,8 +1,13 @@
 public class DefaultResponse<T> implements Response<T> {
-    private boolean ok;
-    private T result;
+    protected boolean ok;
+    protected T result;
 
     public DefaultResponse() {
+    }
+
+    public DefaultResponse(boolean ok, T result) {
+        this.ok = ok;
+        this.result = result;
     }
 
     public boolean isOk() {
@@ -15,7 +20,7 @@ public class DefaultResponse<T> implements Response<T> {
 
     @Override
     public String toString() {
-        return "Response{" +
+        return result.getClass().getTypeName() + "{" +
                 "result=" + result +
                 '}';
     }
